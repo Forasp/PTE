@@ -1,0 +1,21 @@
+Object
+ObjectName
+Hello World Object
+ObjectDescription
+Sample Object with Name, Description, Trigger, and Response. No action
+ObjectTrigger
+Hello
+ObjectResponse
+Hello World!
+Object
+ObjectName
+QuitCommand
+ObjectDescription
+Quit the program when the trigger is hit
+ObjectTrigger
+Quit
+ObjectResponse
+Quitting...
+ObjectAction
+QUIT
+FILE_END

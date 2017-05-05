@@ -1,0 +1,128 @@
+providers: [
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "/home/timpo88m/repos/PTE"
+          source: "/home/timpo88m/repos/PTE/.build-tools.cson"
+          name: "BuildObject"
+          command: "gcc -c -fPIC Source/Object.cpp -o Object.o"
+          wd: "."
+          env: {}
+          modifier: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/home/timpo88m/repos/PTE"
+          source: "/home/timpo88m/repos/PTE/.build-tools.cson"
+          name: "arObject"
+          command: "ar rcs libObject.a Object.o"
+          wd: "."
+          env: {}
+          modifier: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/home/timpo88m/repos/PTE"
+          source: "/home/timpo88m/repos/PTE/.build-tools.cson"
+          name: "sl"
+          command: "gcc -shared -Wl,-soname,libObject.so.1 -o libObject.so.1.0.1  Source/Object.o"
+          wd: "."
+          env: {}
+          modifier: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/home/timpo88m/repos/PTE"
+          source: "/home/timpo88m/repos/PTE/.build-tools.cson"
+          name: "BuildMain"
+          command: "gcc -static Source/Main.cpp -L. -lObject -o PTE"
+          wd: "."
+          env: {}
+          modifier: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/home/timpo88m/repos/PTE"
+          source: "/home/timpo88m/repos/PTE/.build-tools.cson"
+          name: "executable"
+          command: "gcc Source/Main.cpp Object.o"
+          wd: "."
+          env: {}
+          modifier: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: false
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+      ]
+  }
+]
