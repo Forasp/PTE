@@ -25,6 +25,17 @@ void Initialize(void)
     m_Active = true;
 }
 
+void FindAndReplaceNewLines(char* _String)
+{
+    for(int i = 0; i < strlen(_String); i++)
+    {
+        if(_String[i] == '|')
+        {
+            _String[i] = '\n';
+        }
+    }
+}
+
 void Tick(void)
 {
     char *InputString = new char[1024];
@@ -85,6 +96,7 @@ void SetObjectCount(void)
     while(!GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
+        FindAndReplaceNewLines(GameObjectConfigLine);
 
         if(strcmp(GameObjectConfigLine, "Object") == 0)
         {
@@ -111,6 +123,8 @@ void PopulateObjects(void)
     while(CurObject < m_NumObjects)
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
+        FindAndReplaceNewLines(GameObjectConfigLine);
+
         if(strcmp(GameObjectConfigLine, "Object") == 0)
         {
             CurObject++;
@@ -119,36 +133,43 @@ void PopulateObjects(void)
         else if(strcmp(GameObjectConfigLine, "ObjectName") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetName(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectDescription") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetDesc(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectRequiredState") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetRequiredState(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectTrigger") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetTrigger(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectResponse") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetResponse(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectAction") == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            FindAndReplaceNewLines(GameObjectConfigLine);
             m_GameObjects[CurObject]->SetAction(GameObjectConfigLine);
 
             if(strcmp(GameObjectConfigLine, "ENTER_STATE") == 0)
             {
                 GameObjectConfig.getline(GameObjectConfigLine, 1024);
+                FindAndReplaceNewLines(GameObjectConfigLine);
                 m_GameObjects[CurObject]->SetSubAction(GameObjectConfigLine);
             }
         }

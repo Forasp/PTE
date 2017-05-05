@@ -1,26 +1,70 @@
 Object
 ObjectName
-Hello World Object
+Sample Help Object
 ObjectDescription
-Sample Object with Name, Description, Trigger, Required State, and Response. No action
-ObjectRequiredState
-state_main
+Gives the user general, non contextual, information.
 ObjectTrigger
-Hello
+Help
 ObjectResponse
-Hello World!
+Type "Play" to begin playing the sample game.
 Object
 ObjectName
-Enter State Object
+Sample Game Main
 ObjectDescription
-Sample Object that enters a state
+Sample Object that enters a state called "Game"
 ObjectTrigger
-Enter
+Play
 ObjectResponse
-Entering State Main
+Starting Game.|||You enter a cube shaped room with the word "Placeholder"|strewn across everything.||There is a checkered sword on the table, a book,and a giant|throbbing red-checkered cube with the word "Dragon" printed on all sides.||What do you do?
 ObjectAction
 ENTER_STATE
-state_main
+state_game_main
+Object
+ObjectName
+Sample Response 1
+ObjectDescription
+Sample Response for Option Book
+ObjectTrigger
+Book
+ObjectResponse
+The book contains one phrase, "1/0".
+ObjectRequiredState
+state_game_main
+Object
+ObjectName
+Sample Response 2
+ObjectDescription
+Sample Response for Option Sword
+ObjectTrigger
+Sword
+ObjectResponse
+The sword can't be picked up, probably a bug or something.|Seeing you attempt an agressive move, the dragon gets bigger and angrier...|Or maybe it's going to explode...|Who knows...
+ObjectRequiredState
+state_game_main
+Object
+ObjectName
+Sample Response 3
+ObjectDescription
+Sample Response for Option Flee
+ObjectTrigger
+Flee
+ObjectResponse
+THERE IS NO ESCAPE! Just kidding...|Type "Quit" to exit.
+ObjectRequiredState
+state_game_main
+Object
+ObjectName
+Sample Response 4
+ObjectDescription
+Sample Response for Option 1/0
+ObjectTrigger
+1/0
+ObjectResponse
+The earth begins to shake, suddenly everything shatters...|You broke the game...|You should have known better than to divide by zero.
+ObjectRequiredState
+state_game_main
+ObjectAction
+QUIT
 Object
 ObjectName
 QuitCommand

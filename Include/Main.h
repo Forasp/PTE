@@ -21,6 +21,8 @@ void SetObjectCount(void);
 
 void PopulateObjects(void);
 
+void FindAndReplaceNewLines(char* _String);
+
 void Tick(void);
 
 void Destroy(void);
