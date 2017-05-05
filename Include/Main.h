@@ -15,6 +15,8 @@ int m_NumObjects;
 
 void TakeAction(char* _Action);
 
+void EnterState(char* _State);
+
 void SetObjectCount(void);
 
 void PopulateObjects(void);
