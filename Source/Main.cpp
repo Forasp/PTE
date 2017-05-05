@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    m_CurrentState = new char[1024];
+    m_CurrentState = NULL;
     
     SetObjectCount();
 
@@ -57,6 +57,17 @@ void TakeAction(char* _Action)
     {
         m_Active = false;
     }
+    else if(strcmp(_Action, "ENTER_STATE") == 0)
+    {
+        EnterState(m_GameObjects[i]->GetSubAction());
+    }
+}
+
+void EnterState(char* _State)
+{
+    SAFE_ARRAY_DELETE(m_CurrentState);
+    m_CurrentState = new char[1024];
+    memcpy(m_CurrentState, _State);
 }
 
 void SetObjectCount(void)
@@ -129,6 +140,12 @@ void PopulateObjects(void)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
             m_GameObjects[CurObject]->SetAction(GameObjectConfigLine);
+            
+            if(strcmp(GameObjectConfigLine, "ENTER_STATE") == 0)
+            {  
+                GameObjectConfig.getline(GameObjectConfigLine, 1024);
+                m_GameObjects[CurObject]->SetSubAction(GameObjectConfigLine);
+            }
         }
         else if(strcmp(GameObjectConfigLine, "FILE_END") == 0)
         {
