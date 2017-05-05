@@ -11,6 +11,8 @@ Object::Object(void)
     m_ObjectTrigger  = NULL;
     m_ObjectResponse = NULL;
     m_ObjectAction   = NULL;
+    m_ObjectSubAction   = NULL;
+    m_ObjectRequiredState   = NULL;
 }
 
 Object::Object(long _ObjectID,
