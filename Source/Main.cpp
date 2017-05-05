@@ -2,6 +2,8 @@
 
 int main(void)
 {
+    m_CurrentState = new char[1024];
+    
     SetObjectCount();
 
     PopulateObjects();
@@ -25,7 +27,14 @@ void Tick(void)
 
     for(long i = 0; i < m_NumObjects; i++)
     {
-        if(m_GameObjects[i]->CheckTrigger(InputString))
+        bool SkipAction = false;
+        
+        if(m_GameObjects[i]->GetRequiredAction())
+        {
+            SkipAction = (strcmp(GameObjectConfigLine, m_GameObjects[i]->GetRequiredAction()) == 0) ? false : true;
+        }
+        
+        if(!SkipAction && m_GameObjects[i]->CheckTrigger(InputString))
         {
             if(m_GameObjects[i]->GetResponse())
             {
@@ -100,6 +109,11 @@ void PopulateObjects(void)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
             m_GameObjects[CurObject]->SetDesc(GameObjectConfigLine);
+        }
+        else if(strcmp(GameObjectConfigLine, "ObjectRequiredState") == 0)
+        {
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            m_GameObjects[CurObject]->SetRequiredState(GameObjectConfigLine);
         }
         else if(strcmp(GameObjectConfigLine, "ObjectTrigger") == 0)
         {
