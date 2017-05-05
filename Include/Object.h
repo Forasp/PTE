@@ -1,3 +1,5 @@
+#ifndef INCLUDE_OBJECT
+#define INCLUDE_OBJECT
 #include <iostream>
 
 #define NULL 0
@@ -42,3 +44,5 @@ private:
   char *m_ObjectResponse;
   char *m_ObjectAction;
 };
+
+#endif

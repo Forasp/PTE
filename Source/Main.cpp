@@ -5,6 +5,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int main(void)
+{
+    SetObjectCount();
+
+    PopulateObjects();
+
+    m_Active = true;
+
+    while(m_Active)
+    {
+        Tick();
+    }
+
+    Destroy();
+
+    return 0;
+}
+
+void Tick(void)
+{
+    char *InputString = new char[1024];
+    std::cin >> InputString;
+
+    for(long i = 0; i < m_NumObjects; i++)
+    {
+        if(m_GameObjects[i]->CheckTrigger(InputString))
+        {
+            if(m_GameObjects[i]->GetResponse())
+            {
+                std::cout << m_GameObjects[i]->GetResponse() << "\n";
+            }
+
+            if(m_GameObjects[i]->GetAction())
+            {
+                TakeAction(m_GameObjects[i]->GetAction());
+            }
+        }
+    }
+
+    delete[] InputString;
+}
+
 void TakeAction(char* _Action)
 {
     if(strcmp(_Action, "QUIT") == 0)
@@ -13,9 +55,9 @@ void TakeAction(char* _Action)
     }
 }
 
-int GetObjectCount()
+void SetObjectCount(void)
 {
-    int NumObjects = 0;
+    m_NumObjects = 0;
     char *GameObjectConfigLine = new char[1024];
 
     std::ifstream GameObjectConfig;
@@ -23,29 +65,30 @@ int GetObjectCount()
     while(!GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
+
         if(strcmp(GameObjectConfigLine, "Object") == 0)
         {
-            NumObjects++;
+            m_NumObjects++;
         }
     }
 
     GameObjectConfig.close();
 
-    return NumObjects;
+    delete[] GameObjectConfigLine;
 }
 
-int main(void)
+void PopulateObjects(void)
 {
-    int NumObjects = GetObjectCount();
-    int CurObject = -1;
     char *GameObjectConfigLine = new char[1024];
-    m_Active = true;
+
+    int CurObject = -1;
+
+    m_GameObjects = new Object*[m_NumObjects];
 
     std::ifstream GameObjectConfig;
     GameObjectConfig.open("GameObjects.pte");
-    m_GameObjects = new Object*[NumObjects];
 
-    while(CurObject < NumObjects)
+    while(CurObject < m_NumObjects)
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
         if(strcmp(GameObjectConfigLine, "Object") == 0)
@@ -86,29 +129,15 @@ int main(void)
 
     GameObjectConfig.close();
 
-    while(m_Active)
+    delete[] GameObjectConfigLine;
+}
+
+void Destroy(void)
+{
+    for(int i = 0; i < m_NumObjects; i++)
     {
-        char *InputString = new char[1024];
-        std::cin >> InputString;
-
-        for(long i = 0; i < NumObjects; i++)
-        {
-            if(m_GameObjects[i]->CheckTrigger(InputString))
-            {
-                if(m_GameObjects[i]->GetResponse())
-                {
-                    std::cout << m_GameObjects[i]->GetResponse() << "\n";
-                }
-
-                if(m_GameObjects[i]->GetAction())
-                {
-                    TakeAction(m_GameObjects[i]->GetAction());
-                }
-            }
-        }
-
-        delete[] InputString;
+        delete m_GameObjects[i];
     }
 
-    return 0;
+    delete[] m_GameObjects;
 }
