@@ -3,7 +3,10 @@
 ## Description
 A basic text game engine with simple text configuration.
 
-## Instructions
+## Build Instructions
+Run Make (sudo make, from this directory, if you're on Ubuntu). If you need help with this, google is your friend.
+
+## Use Instructions
 The GameObjects.pte in the same folder as the output determines what Objects will be read in and how they work.
 Currently, only extremely basic functionality is supported. Each game object can contain a Name, Description, Trigger, Required State, Response, Action, and sub-action. The only actions currently supported in the Main.cpp file are QUIT and ENTER_STATE, adding additional actions, and shifting Response to be conditional on a RESPONSE action are planned.
 
