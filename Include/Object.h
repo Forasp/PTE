@@ -23,6 +23,7 @@ public:
     char *GetTrigger(void){return m_ObjectTrigger;}
     char *GetResponse(void){return m_ObjectResponse;}
     char *GetAction(void){return m_ObjectAction;}
+    char *GetSubAction(void){return m_ObjectSubAction;}
     char *GetRequiredState(void){return m_ObjectRequiredState;}
 
     void SetName(char *_ObjectName);
@@ -30,6 +31,7 @@ public:
     void SetTrigger(char *_ObjectTrigger);
     void SetResponse(char *_ObjectResponse);
     void SetAction(char *_ObjectAction);
+    void SetSubAction(char *_ObjectSubAction);
     void SetRequiredState(char *_ObjectRequiredState);
     
     long GetID(void){return m_ObjectID;}
@@ -43,6 +45,7 @@ private:
     char *m_ObjectResponse;
     char *m_ObjectAction;
     char *m_ObjectRequiredState;
+    char *m_ObjectSubAction;
 };
 
 #endif
