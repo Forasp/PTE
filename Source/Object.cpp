@@ -5,13 +5,13 @@
 
 Object::Object(void)
 {
-    m_ObjectID       = NULL;
-    m_ObjectName     = NULL;
-    m_ObjectDesc     = NULL;
-    m_ObjectTrigger  = NULL;
-    m_ObjectResponse = NULL;
-    m_ObjectAction   = NULL;
-    m_ObjectSubAction   = NULL;
+    m_ObjectID              = NULL;
+    m_ObjectName            = NULL;
+    m_ObjectDesc            = NULL;
+    m_ObjectTrigger         = NULL;
+    m_ObjectResponse        = NULL;
+    m_ObjectAction          = NULL;
+    m_ObjectSubAction       = NULL;
     m_ObjectRequiredState   = NULL;
 }
 
@@ -100,10 +100,10 @@ void Object::SetSubAction(char *_ObjectSubAction)
     memcpy(m_ObjectSubAction, _ObjectSubAction, strlen(_ObjectSubAction));
 }
 
-void Object::SetRequiredState(char *_RequiredState)
+void Object::SetRequiredState(char *_ObjectRequiredState)
 {
-    SAFE_ARRAY_DELETE(m_RequiredState);
+    SAFE_ARRAY_DELETE(m_ObjectRequiredState);
 
-    m_RequiredState = new char[strlen(_RequiredState)];
-    memcpy(m_RequiredState, _RequiredState, strlen(_RequiredState));
+    m_ObjectRequiredState = new char[strlen(_ObjectRequiredState)];
+    memcpy(m_ObjectRequiredState, _ObjectRequiredState, strlen(_ObjectRequiredState));
 }

@@ -13,7 +13,7 @@ Object **m_GameObjects;
 bool m_Active;
 int m_NumObjects;
 
-void TakeAction(char* _Action);
+void TakeAction(int _ObjectIndex);
 
 void EnterState(char* _State);
 
@@ -24,6 +24,8 @@ void PopulateObjects(void);
 void Tick(void);
 
 void Destroy(void);
+
+void Initialize(void);
 
 int main(void);
 

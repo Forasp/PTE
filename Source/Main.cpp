@@ -2,13 +2,7 @@
 
 int main(void)
 {
-    m_CurrentState = NULL;
-    
-    SetObjectCount();
-
-    PopulateObjects();
-
-    m_Active = true;
+    Initialize();
 
     while(m_Active)
     {
@@ -20,6 +14,17 @@ int main(void)
     return 0;
 }
 
+void Initialize(void)
+{
+    m_CurrentState = new char[1024];
+
+    SetObjectCount();
+
+    PopulateObjects();
+
+    m_Active = true;
+}
+
 void Tick(void)
 {
     char *InputString = new char[1024];
@@ -28,12 +33,12 @@ void Tick(void)
     for(long i = 0; i < m_NumObjects; i++)
     {
         bool SkipAction = false;
-        
-        if(m_GameObjects[i]->GetRequiredAction())
+
+        if(m_GameObjects[i]->GetRequiredState())
         {
-            SkipAction = (strcmp(GameObjectConfigLine, m_GameObjects[i]->GetRequiredAction()) == 0) ? false : true;
+            SkipAction = (strcmp(m_CurrentState, m_GameObjects[i]->GetRequiredState()) == 0) ? false : true;
         }
-        
+
         if(!SkipAction && m_GameObjects[i]->CheckTrigger(InputString))
         {
             if(m_GameObjects[i]->GetResponse())
@@ -41,33 +46,33 @@ void Tick(void)
                 std::cout << m_GameObjects[i]->GetResponse() << "\n";
             }
 
-            if(m_GameObjects[i]->GetAction())
-            {
-                TakeAction(m_GameObjects[i]->GetAction());
-            }
+            TakeAction(i);
         }
     }
 
     SAFE_ARRAY_DELETE(InputString);
 }
 
-void TakeAction(char* _Action)
+void TakeAction(int _ObjectIndex)
 {
-    if(strcmp(_Action, "QUIT") == 0)
+    if(m_GameObjects[_ObjectIndex]->GetAction())
     {
-        m_Active = false;
-    }
-    else if(strcmp(_Action, "ENTER_STATE") == 0)
-    {
-        EnterState(m_GameObjects[i]->GetSubAction());
+        if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), "QUIT") == 0)
+        {
+            m_Active = false;
+        }
+        else if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), "ENTER_STATE") == 0)
+        {
+            EnterState(m_GameObjects[_ObjectIndex]->GetSubAction());
+        }
     }
 }
 
 void EnterState(char* _State)
 {
     SAFE_ARRAY_DELETE(m_CurrentState);
-    m_CurrentState = new char[1024];
-    memcpy(m_CurrentState, _State);
+    m_CurrentState = new char[strlen(_State)];
+    memcpy(m_CurrentState, _State, strlen(_State));
 }
 
 void SetObjectCount(void)
@@ -140,9 +145,9 @@ void PopulateObjects(void)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
             m_GameObjects[CurObject]->SetAction(GameObjectConfigLine);
-            
+
             if(strcmp(GameObjectConfigLine, "ENTER_STATE") == 0)
-            {  
+            {
                 GameObjectConfig.getline(GameObjectConfigLine, 1024);
                 m_GameObjects[CurObject]->SetSubAction(GameObjectConfigLine);
             }
@@ -150,6 +155,7 @@ void PopulateObjects(void)
         else if(strcmp(GameObjectConfigLine, "FILE_END") == 0)
         {
             CurObject++;
+            break;
         }
     }
 
