@@ -1,9 +1,4 @@
 #include "../Include/Main.h"
-#include <string.h>
-#include <fstream>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 
 int main(void)
 {
@@ -44,7 +39,7 @@ void Tick(void)
         }
     }
 
-    delete[] InputString;
+    SAFE_ARRAY_DELETE(InputString);
 }
 
 void TakeAction(char* _Action)
@@ -74,7 +69,7 @@ void SetObjectCount(void)
 
     GameObjectConfig.close();
 
-    delete[] GameObjectConfigLine;
+    SAFE_ARRAY_DELETE(GameObjectConfigLine);
 }
 
 void PopulateObjects(void)
@@ -129,15 +124,15 @@ void PopulateObjects(void)
 
     GameObjectConfig.close();
 
-    delete[] GameObjectConfigLine;
+    SAFE_ARRAY_DELETE(GameObjectConfigLine);
 }
 
 void Destroy(void)
 {
     for(int i = 0; i < m_NumObjects; i++)
     {
-        delete m_GameObjects[i];
+        SAFE_DELETE(m_GameObjects[i]);
     }
 
-    delete[] m_GameObjects;
+    SAFE_ARRAY_DELETE(m_GameObjects);
 }

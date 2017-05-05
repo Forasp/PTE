@@ -2,21 +2,19 @@
 #define INCLUDE_OBJECT
 #include <iostream>
 
-#define NULL 0
-
 class Object
 {
 public:
-  Object(void);
-  Object(long _ObjectID,
-         char *_ObjectName,
-         char *_ObjectDesc);
-  ~Object(void);
+    Object(void);
+    Object(long _ObjectID,
+           char *_ObjectName,
+           char *_ObjectDesc);
+    ~Object(void);
 
-  void Initialize(long _ObjectID,
-                  char *_ObjectName,
-                  char *_ObjectDesc);
-  void Destroy(void);
+    void Initialize(long _ObjectID,
+                    char *_ObjectName,
+                    char *_ObjectDesc);
+    void Destroy(void);
 
     bool CheckTrigger(char *_Trigger);
 
@@ -34,15 +32,13 @@ public:
     long GetID(void){return m_ObjectID;}
 
 private:
-  void Tick(void);
+    long m_ObjectID;
 
-  long m_ObjectID;
-
-  char *m_ObjectName;
-  char *m_ObjectDesc;
-  char *m_ObjectTrigger;
-  char *m_ObjectResponse;
-  char *m_ObjectAction;
+     char *m_ObjectName;
+    char *m_ObjectDesc;
+    char *m_ObjectTrigger;
+    char *m_ObjectResponse;
+    char *m_ObjectAction;
 };
 
 #endif
