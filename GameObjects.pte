@@ -2,11 +2,25 @@ Object
 ObjectName
 Hello World Object
 ObjectDescription
-Sample Object with Name, Description, Trigger, and Response. No action
+Sample Object with Name, Description, Trigger, Required State, and Response. No action
+ObjectRequiredState
+state_main
 ObjectTrigger
 Hello
 ObjectResponse
 Hello World!
+Object
+ObjectName
+Enter State Object
+ObjectDescription
+Sample Object that enters a state
+ObjectTrigger
+Enter
+ObjectResponse
+Entering State Main
+ObjectAction
+ENTER_STATE
+state_main
 Object
 ObjectName
 QuitCommand
