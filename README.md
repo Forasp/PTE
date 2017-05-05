@@ -15,6 +15,8 @@ Each Object Property's content immediately follows, and is terminated with a new
 An Object is closed when we read "Object" again, as this opens a new object.
 When we reach the end of the file, add "FILE_END".
 
+## Notes to users
+
 This is all subject to change; however, I will attempt to keep as much backwards compatibility as possible with .pte formatted files. If the time comes that I switch to an XML format, or some other style, I will change the file extension to prevent any confusion.
 
 Since this is a console/terminal application, if the QUIT Action is not included in the GameObjects.pte, you can terminate the program with Ctrl+C or Ctrl+Shift+Break, or by closing the console/terminal.
