@@ -1,2 +1,3 @@
 # PTE
-A basic text game engine.
+## Powell Text Engine
+A basic text game engine with simple text configuration.
