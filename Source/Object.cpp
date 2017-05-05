@@ -89,3 +89,11 @@ void Object::SetAction(char *_ObjectAction)
     m_ObjectAction = new char[strlen(_ObjectAction)];
     memcpy(m_ObjectAction, _ObjectAction, strlen(_ObjectAction));
 }
+
+void Object::SetRequiredState(char *_RequiredState)
+{
+    SAFE_ARRAY_DELETE(m_RequiredState);
+
+    m_RequiredState = new char[strlen(_RequiredState)];
+    memcpy(m_RequiredState, _RequiredState, strlen(_RequiredState));
+}
