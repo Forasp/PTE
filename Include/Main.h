@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Object** m_GameObjects;
+char *m_CurrentState;
+Object **m_GameObjects;
 bool m_Active;
 int m_NumObjects;
 
