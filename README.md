@@ -4,7 +4,9 @@
 A basic text game engine with simple text configuration.
 
 ## Build Instructions
-Run Make (sudo make, from this directory, if you're on Ubuntu). If you need help with this, google is your friend.
+Run the included premake, from this folder, with parameters for whatever compiler/IDE you plan to use. See guide here: https://github.com/premake/premake-core/wiki/Using-Premake
+
+After that's finished, build via typical steps for your IDE/Compiler.
 
 ## Use Instructions
 The GameObjects.pte in the same folder as the output determines what Objects will be read in and how they work.
