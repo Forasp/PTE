@@ -34,7 +34,7 @@ void Initialize(void)
 	}
 
     m_GameObjects = new Object*[m_NumObjects];
-	
+
 	for(int i = 0; i < m_NumFiles; i++)
 	{
 		PopulateObjects(m_FileList[i]);
