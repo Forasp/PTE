@@ -55,55 +55,62 @@ bool Object::CheckTrigger(char *_Trigger)
 void Object::SetName(char *_ObjectName)
 {
     SAFE_ARRAY_DELETE(m_ObjectName);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectName);
 
-    m_ObjectName = new char[strlen(_ObjectName)];
-    memcpy(m_ObjectName, _ObjectName, strlen(_ObjectName));
+    m_ObjectName = new char[SizeOfCString];
+    memcpy(m_ObjectName, _ObjectName, SizeOfCString);
 }
 
 void Object::SetDesc(char *_ObjectDesc)
 {
     SAFE_ARRAY_DELETE(m_ObjectDesc);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectDesc);
 
-    m_ObjectDesc = new char[strlen(_ObjectDesc)];
-    memcpy(m_ObjectDesc, _ObjectDesc, strlen(_ObjectDesc));
+    m_ObjectDesc = new char[SizeOfCString];
+    memcpy(m_ObjectDesc, _ObjectDesc, SizeOfCString);
 }
 
 void Object::SetTrigger(char *_ObjectTrigger)
 {
     SAFE_ARRAY_DELETE(m_ObjectTrigger);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectTrigger);
 
-    m_ObjectTrigger = new char[strlen(_ObjectTrigger)];
-    memcpy(m_ObjectTrigger, _ObjectTrigger, strlen(_ObjectTrigger));
+    m_ObjectTrigger = new char[SizeOfCString];
+    memcpy(m_ObjectTrigger, _ObjectTrigger, SizeOfCString);
 }
 
 void Object::SetResponse(char *_ObjectResponse)
 {
     SAFE_ARRAY_DELETE(m_ObjectResponse);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectResponse);
 
-    m_ObjectResponse = new char[strlen(_ObjectResponse)];
-    memcpy(m_ObjectResponse, _ObjectResponse, strlen(_ObjectResponse));
+    m_ObjectResponse = new char[SizeOfCString];
+    memcpy(m_ObjectResponse, _ObjectResponse, SizeOfCString);
 }
 
 void Object::SetAction(char *_ObjectAction)
 {
     SAFE_ARRAY_DELETE(m_ObjectAction);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectAction);
 
-    m_ObjectAction = new char[strlen(_ObjectAction)];
-    memcpy(m_ObjectAction, _ObjectAction, strlen(_ObjectAction));
+    m_ObjectAction = new char[SizeOfCString];
+    memcpy(m_ObjectAction, _ObjectAction, SizeOfCString);
 }
 
 void Object::SetSubAction(char *_ObjectSubAction)
 {
     SAFE_ARRAY_DELETE(m_ObjectSubAction);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectSubAction);
 
-    m_ObjectSubAction = new char[strlen(_ObjectSubAction)];
-    memcpy(m_ObjectSubAction, _ObjectSubAction, strlen(_ObjectSubAction));
+    m_ObjectSubAction = new char[SizeOfCString];
+    memcpy(m_ObjectSubAction, _ObjectSubAction, SizeOfCString);
 }
 
 void Object::SetRequiredState(char *_ObjectRequiredState)
 {
     SAFE_ARRAY_DELETE(m_ObjectRequiredState);
+	size_t SizeOfCString = GET_CSTRING_SIZE(_ObjectRequiredState);
 
-    m_ObjectRequiredState = new char[strlen(_ObjectRequiredState)];
-    memcpy(m_ObjectRequiredState, _ObjectRequiredState, strlen(_ObjectRequiredState));
+    m_ObjectRequiredState = new char[SizeOfCString];
+    memcpy(m_ObjectRequiredState, _ObjectRequiredState, SizeOfCString);
 }

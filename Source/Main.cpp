@@ -18,11 +18,89 @@ void Initialize(void)
 {
     m_CurrentState = new char[1024];
 
-    SetObjectCount();
+	m_NumObjects = 0;
 
-    PopulateObjects();
+	m_NumFiles = 0;
+
+	m_CurObject = -1;
+
+	CountFiles();
+
+	PopulateFileList();
+
+	for(int i = 0; i < m_NumFiles; i++)
+	{
+		SetObjectCount(m_FileList[i]);
+	}
+
+    m_GameObjects = new Object*[m_NumObjects];
+	
+	for(int i = 0; i < m_NumFiles; i++)
+	{
+		PopulateObjects(m_FileList[i]);
+	}
 
     m_Active = true;
+}
+
+void CountFiles(void)
+{
+	char *GameObjectConfigLine = new char[1024];
+
+    std::ifstream GameObjectConfig;
+    GameObjectConfig.open(FILE_LIST_LOCATION);
+
+    while(GameObjectConfig.good())
+    {
+        GameObjectConfig.getline(GameObjectConfigLine, 1024);
+
+        if(strcmp(GameObjectConfigLine, TYPE_FILENAME) == 0)
+        {
+            m_NumFiles++;
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_FILEEND) == 0)
+        {
+            break;
+        }
+    }
+
+    GameObjectConfig.close();
+
+    SAFE_ARRAY_DELETE(GameObjectConfigLine);
+}
+
+void PopulateFileList(void)
+{
+    char *GameObjectConfigLine = new char[1024];
+
+    int CurObject = -1;
+
+	m_FileList = new char*[m_NumFiles];
+
+    std::ifstream GameObjectConfig;
+    GameObjectConfig.open(FILE_LIST_LOCATION);
+
+    while(GameObjectConfig.good())
+    {
+        GameObjectConfig.getline(GameObjectConfigLine, 1024);
+
+        if(strcmp(GameObjectConfigLine, TYPE_FILENAME) == 0)
+        {
+			CurObject++;
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+			m_FileList[CurObject] = new char[GET_CSTRING_SIZE(GameObjectConfigLine)];
+			memcpy(m_FileList[CurObject],GameObjectConfigLine,GET_CSTRING_SIZE(GameObjectConfigLine));
+
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_FILEEND) == 0)
+        {
+            break;
+        }
+    }
+
+    GameObjectConfig.close();
+
+    SAFE_ARRAY_DELETE(GameObjectConfigLine);
 }
 
 void FindAndReplaceNewLines(char* _String)
@@ -58,6 +136,7 @@ void Tick(void)
             }
 
             TakeAction(i);
+			break;
         }
     }
 
@@ -68,11 +147,11 @@ void TakeAction(int _ObjectIndex)
 {
     if(m_GameObjects[_ObjectIndex]->GetAction())
     {
-        if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), "QUIT") == 0)
+        if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), TYPE_QUIT) == 0)
         {
             m_Active = false;
         }
-        else if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), "ENTER_STATE") == 0)
+        else if(strcmp(m_GameObjects[_ObjectIndex]->GetAction(), TYPE_ENTERSTATE) == 0)
         {
             EnterState(m_GameObjects[_ObjectIndex]->GetSubAction());
         }
@@ -82,23 +161,24 @@ void TakeAction(int _ObjectIndex)
 void EnterState(char* _State)
 {
     SAFE_ARRAY_DELETE(m_CurrentState);
-    m_CurrentState = new char[strlen(_State)];
-    memcpy(m_CurrentState, _State, strlen(_State));
+	size_t SizeOfCString = GET_CSTRING_SIZE(_State);
+
+    m_CurrentState = new char[SizeOfCString];
+    memcpy(m_CurrentState, _State, SizeOfCString);
 }
 
-void SetObjectCount(void)
+void SetObjectCount(char* _File)
 {
-    m_NumObjects = 0;
     char *GameObjectConfigLine = new char[1024];
 
     std::ifstream GameObjectConfig;
-    GameObjectConfig.open("GameObjects.pte");
+    GameObjectConfig.open(_File);
     while(!GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
         FindAndReplaceNewLines(GameObjectConfigLine);
 
-        if(strcmp(GameObjectConfigLine, "Object") == 0)
+        if(strcmp(GameObjectConfigLine, TYPE_OBJECTNAME) == 0)
         {
             m_NumObjects++;
         }
@@ -109,73 +189,61 @@ void SetObjectCount(void)
     SAFE_ARRAY_DELETE(GameObjectConfigLine);
 }
 
-void PopulateObjects(void)
+void PopulateObjects(char* _File)
 {
     char *GameObjectConfigLine = new char[1024];
 
-    int CurObject = -1;
-
-    m_GameObjects = new Object*[m_NumObjects];
-
     std::ifstream GameObjectConfig;
-    GameObjectConfig.open("GameObjects.pte");
+    GameObjectConfig.open(_File);
 
-    while(CurObject < m_NumObjects)
+    while(!GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
-        FindAndReplaceNewLines(GameObjectConfigLine);
 
-        if(strcmp(GameObjectConfigLine, "Object") == 0)
+        if(strcmp(GameObjectConfigLine, TYPE_OBJECT) == 0)
         {
-            CurObject++;
-            m_GameObjects[CurObject] = new Object();
+            m_CurObject++;
+            m_GameObjects[m_CurObject] = new Object();
         }
-        else if(strcmp(GameObjectConfigLine, "ObjectName") == 0)
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTNAME) == 0)
+        {
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            m_GameObjects[m_CurObject]->SetName(GameObjectConfigLine);
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTDESC) == 0)
+        {
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            m_GameObjects[m_CurObject]->SetDesc(GameObjectConfigLine);
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTREQSTATE) == 0)
+        {
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            m_GameObjects[m_CurObject]->SetRequiredState(GameObjectConfigLine);
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTTRIGGER) == 0)
+        {
+            GameObjectConfig.getline(GameObjectConfigLine, 1024);
+            m_GameObjects[m_CurObject]->SetTrigger(GameObjectConfigLine);
+        }
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTRESPONSE) == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
             FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetName(GameObjectConfigLine);
+            m_GameObjects[m_CurObject]->SetResponse(GameObjectConfigLine);
         }
-        else if(strcmp(GameObjectConfigLine, "ObjectDescription") == 0)
+        else if(strcmp(GameObjectConfigLine, TYPE_OBJECTACTION) == 0)
         {
             GameObjectConfig.getline(GameObjectConfigLine, 1024);
-            FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetDesc(GameObjectConfigLine);
-        }
-        else if(strcmp(GameObjectConfigLine, "ObjectRequiredState") == 0)
-        {
-            GameObjectConfig.getline(GameObjectConfigLine, 1024);
-            FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetRequiredState(GameObjectConfigLine);
-        }
-        else if(strcmp(GameObjectConfigLine, "ObjectTrigger") == 0)
-        {
-            GameObjectConfig.getline(GameObjectConfigLine, 1024);
-            FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetTrigger(GameObjectConfigLine);
-        }
-        else if(strcmp(GameObjectConfigLine, "ObjectResponse") == 0)
-        {
-            GameObjectConfig.getline(GameObjectConfigLine, 1024);
-            FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetResponse(GameObjectConfigLine);
-        }
-        else if(strcmp(GameObjectConfigLine, "ObjectAction") == 0)
-        {
-            GameObjectConfig.getline(GameObjectConfigLine, 1024);
-            FindAndReplaceNewLines(GameObjectConfigLine);
-            m_GameObjects[CurObject]->SetAction(GameObjectConfigLine);
+            m_GameObjects[m_CurObject]->SetAction(GameObjectConfigLine);
 
-            if(strcmp(GameObjectConfigLine, "ENTER_STATE") == 0)
+            if(strcmp(GameObjectConfigLine, TYPE_ENTERSTATE) == 0)
             {
                 GameObjectConfig.getline(GameObjectConfigLine, 1024);
-                FindAndReplaceNewLines(GameObjectConfigLine);
-                m_GameObjects[CurObject]->SetSubAction(GameObjectConfigLine);
+                m_GameObjects[m_CurObject]->SetSubAction(GameObjectConfigLine);
             }
         }
-        else if(strcmp(GameObjectConfigLine, "FILE_END") == 0)
+        else if(strcmp(GameObjectConfigLine, TYPE_FILEEND) == 0)
         {
-            CurObject++;
             break;
         }
     }
