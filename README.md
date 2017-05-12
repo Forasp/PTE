@@ -9,11 +9,17 @@ Run the included premake, from this folder, with parameters for whatever compile
 After that's finished, build via typical steps for your IDE/Compiler.
 
 ## Use Instructions
-The GameObjects.pte in the same folder as the output determines what Objects will be read in and how they work.
-Currently, only extremely basic functionality is supported. Each game object can contain a Name, Description, Trigger, Required State, Response, Action, and sub-action. The only actions currently supported in the Main.cpp file are QUIT and ENTER_STATE, adding additional actions, and shifting Response to be conditional on a RESPONSE action are planned.
+The FileList.pte in the Objects folder determines what Object files will be, and where they are relative to application's output file or executable. Each one of those Object files can support as many objects as you want, and there can be as many Object files as you want. You can nest the files in additional folders, or keep them all in one folder, as long as the files are referenced properly in the FileList.pte file.
+Currently, only extremely basic functionality is supported. Each game object can contain a Name, Description, Trigger, Required State, Response, Action, and sub-action. The only actions currently supported in the Main.cpp file are QUIT and ENTER_STATE, adding additional actions is planned.
 
-A Sample GameObjects.pte is included in the root folder of the project, here's a breakdown of how the file is formatted, and how it's read.
+A Sample FileList.pte, and two sample object files are provided in the Objects folder, here's a breakdown of how the files are formatted, and how they're read.
 
+### FileList.pte
+FILE_NAME Indicates that the proceeding line will contain a relative or direct path to an object file.
+A newline must follow FILE_NAME, and on that new line, you can put a relative or direct path to an object file.
+At the end of the file, include FILE_END
+
+### [Object file name].pte
 We open each object with "Object" and a new line.
 We open each Object Property (Such as ObjectName) with "Object[Property]" and a new line.
 Each Object Property's content immediately follows, and is terminated with a new line.
@@ -27,3 +33,9 @@ When we reach the end of the file, add "FILE_END".
 This is all subject to change; however, I will attempt to keep as much backwards compatibility as possible with .pte formatted files. If the time comes that I switch to an XML format, or some other style, I will change the file extension to prevent any confusion.
 
 Since this is a console/terminal application, if the QUIT Action is not included in the GameObjects.pte, you can terminate the program with Ctrl+C or Ctrl+Shift+Break, or by closing the console/terminal.
+
+All lines must be limited to 1024 characters until a change is made to support longer strings. If there is a need for that then you may fork the project, make and test your change, pull, merge, and push. 
+
+I intend to eliminate the need for the FileList.pte file; however, I will leave the functionality as an override, so that you may either let all .pte files be found automatically, or specify only specific files to load. 
+
+I'm trying to keep things as cross-platform compatible as possible between Ubuntu 16.04+ and Windows 10+, if you find any issues with any other OSes please alert me, or feel free to fix them yourself (and pull/merge/push with trunk)
