@@ -19,6 +19,12 @@ Object::Object(long _ObjectID,
                char *_ObjectName,
                char *_ObjectDesc)
 {
+    m_ObjectTrigger         = NULL;
+    m_ObjectResponse        = NULL;
+    m_ObjectAction          = NULL;
+    m_ObjectSubAction       = NULL;
+    m_ObjectRequiredState   = NULL;
+
     Initialize(_ObjectID, _ObjectName, _ObjectDesc);
 }
 
@@ -31,6 +37,8 @@ void Object::Initialize(long _ObjectID,
                         char *_ObjectName,
                         char *_ObjectDesc)
 {
+    SAFE_ARRAY_DELETE(m_ObjectName);
+    SAFE_ARRAY_DELETE(m_ObjectDesc);
     m_ObjectName = new char[strlen(_ObjectName)];
     m_ObjectDesc = new char[strlen(_ObjectDesc)];
     memcpy(m_ObjectName, _ObjectName, strlen(_ObjectName));

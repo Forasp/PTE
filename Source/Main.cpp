@@ -128,7 +128,7 @@ void Tick(void)
             SkipAction = (strcmp(m_CurrentState, m_GameObjects[i]->GetRequiredState()) == 0) ? false : true;
         }
 
-        if(!SkipAction && m_GameObjects[i]->CheckTrigger(InputString))
+        if((not SkipAction) && (m_GameObjects[i]->CheckTrigger(InputString)))
         {
             if(m_GameObjects[i]->GetResponse())
             {
@@ -173,7 +173,7 @@ void SetObjectCount(char* _File)
 
     std::ifstream GameObjectConfig;
     GameObjectConfig.open(_File);
-    while(!GameObjectConfig.eof())
+    while(not GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
         FindAndReplaceNewLines(GameObjectConfigLine);
@@ -196,7 +196,7 @@ void PopulateObjects(char* _File)
     std::ifstream GameObjectConfig;
     GameObjectConfig.open(_File);
 
-    while(!GameObjectConfig.eof())
+    while(not GameObjectConfig.eof())
     {
         GameObjectConfig.getline(GameObjectConfigLine, 1024);
 
