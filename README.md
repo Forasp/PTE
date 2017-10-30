@@ -1,3 +1,9 @@
+This project is no longer active. An AAR is provided below, all original content follows the AAR.
+
+# AAR (After Action Review)
+
+Well, this was a fun project to throw a little time at and I learned a few good things along the way. My initial goal was to create a highly threaded and class diverse text game engine with a very simple method of creating new "games" or text interactions. I realized pretty quickly that threading was completely unecessary given the low amount of work, and lack of any need for independant operation. I also learned that without a game in mind, I'm developing something with requirements but nothing to bench them on. Without a solid and enjoyable project in mind to use as a benchmark, I quickly lost interest in the project, and completed it to a fairly low standard. It's capable of reading in formatted text files declaring objects and their interactions, and it has a usable entry point. For text only adventures, with no RNG, this works fine and supports some flags, but it really doesn't allow much customization for the user (writer) and requires changes in code to add support for things like character stats.
+
 # PTE (Powell Text Engine)
 
 ## Description
